@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { BiPhoneCall } from "react-icons/bi";
+import React, { useContext, useEffect, useState } from "react";
+import { FaRegUser } from "react-icons/fa";
+import Modal from "./Modal";
+import { AuthContext } from "../context/AuthProvider";
+import Profile from "./Profile";
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
+  const { user } = useContext(AuthContext);
   const navItems = (
     <>
       <li>
@@ -133,9 +137,16 @@ const Navbar = () => {
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          <a className="btn bg-green rounded-full px-6 text-white flex items center gap-2">
-            <BiPhoneCall className="bg-green"></BiPhoneCall>Contact
-          </a>
+          {user ? (
+            <Profile user={user}></Profile>
+          ) : (
+            <button
+              onClick={() => document.getElementById("my_modal_5").showModal()}
+              className="btn bg-green rounded-full px-6 text-white flex items center gap-2">
+              <FaRegUser className="bg-green"></FaRegUser>Login
+            </button>
+          )}
+          <Modal></Modal>
         </div>
       </div>
     </header>

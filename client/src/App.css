@@ -2,6 +2,10 @@
 
 body {
   font-family: "Inter", sans-serif;
+  background-color: white;
+}
+* {
+  background-color: white;
 }
 
 .section-container {
