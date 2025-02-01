@@ -1,11 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import { AuthContext } from "../context/AuthProvider";
 const Cards = ({ item }) => {
   const [isHeartFilled, SetHeartFilled] = useState(false);
-
+  const { name, image, price, recipe, _id } = item;
   const handleHEartClick = () => {
     SetHeartFilled(!isHeartFilled);
+  };
+  const { user } = useContext(AuthContext);
+  const handleCart = (item) => {
+    if (user && user.email) {
+      const cartItem = {
+        menuItemId: _id,
+        name,
+        quatity: 1,
+        image,
+        price,
+        email: user.email,
+      };
+      fetch("http://localhost:6001/carts", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    } else {
+      alert("not");
+    }
   };
   return (
     <div className="text-black">
@@ -36,7 +61,11 @@ const Cards = ({ item }) => {
               <span className="text-sm text-red">$</span>
               {item.price}
             </h5>
-            <button className="btn bg-green text-white">Buy Now</button>
+            <button
+              className="btn bg-green text-white"
+              onClick={() => handleCart(item)}>
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
