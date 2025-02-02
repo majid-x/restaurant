@@ -1,13 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-body {
-  font-family: "Inter", sans-serif;
-  background-color: white;
-}
-* {
-  background-color: white;
-}
-
 .section-container {
   @apply max-w-screen-2xl container mx-auto xl:px-24 px-4;
 }
@@ -28,4 +20,10 @@ header {
   text-decoration: underline;
   text-underline-offset: 5px;
   color: #390;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
