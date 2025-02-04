@@ -7,8 +7,10 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 
 const provider = new GoogleAuthProvider();
 export const AuthContext = createContext();
@@ -33,10 +35,10 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const updateProfile = ({ name, photourl }) => {
-    return updateProfile(auth, {
+  const updateUserProfile = (user, name, photoURL) => {
+    return updateProfile(user, {
       displayName: name,
-      photoURL: photourl,
+      photoURL: photoURL,
     });
   };
 
@@ -44,6 +46,16 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       if (currentuser) {
         setuser(currentuser);
+        const userInfo = { email: currentuser.email };
+        axios
+          .post("http://localhost:6001/jwt", userInfo)
+          .then(function (response) {
+            if (response.data.token) {
+              localStorage.setItem("access-token", response.data.token);
+            } else {
+              localStorage.removeItem("access-token");
+            }
+          });
         setLoading(false);
       } else {
         setuser(null);
@@ -59,6 +71,7 @@ const AuthProvider = ({ children }) => {
     user,
     createUser,
     signUpWithGmail,
+    updateUserProfile,
     login,
     logout,
     loading,

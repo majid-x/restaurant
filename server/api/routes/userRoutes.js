@@ -7,7 +7,7 @@ const {
   makeAdmin,
 } = require("../controllers/userController");
 const router = express.Router();
-
+const verifyToken = require("../middleware/verifyToken");
 router.get("/", getAllUsers);
 router.post("/", createUser);
 router.delete("/:id", deleteUser);

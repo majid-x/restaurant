@@ -24,7 +24,10 @@ mongoose
 app.post("/jwt", async (req, res) => {
   const user = req.body;
   const token = jwt.sign(user, process.env.ACCESS_TOKEN, { expiresIn: "1hr" });
+  res.send({ token });
 });
+//verify jwt token
+
 // import routes
 const menuRoutes = require("./api/routes/menuRoutes");
 app.use("/menu", menuRoutes);

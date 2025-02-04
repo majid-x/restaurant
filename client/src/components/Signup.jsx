@@ -4,6 +4,7 @@ import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { AuthContext } from "../context/AuthProvider";
+import axios from "axios";
 
 const Signup = () => {
   const {
@@ -12,8 +13,14 @@ const Signup = () => {
     formState: { error },
   } = useForm();
 
-  const { createUser, signUpWithGmail, login, logout, loading } =
-    useContext(AuthContext);
+  const {
+    createUser,
+    updateUserProfile,
+    signUpWithGmail,
+    login,
+    logout,
+    loading,
+  } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -24,9 +31,20 @@ const Signup = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
-        alert("account created");
-        document.getElementById("my_modal_5").close();
-        navigate(from, { replace: true });
+        updateUserProfile(user, data.email, data.photoURL).then(() => {
+          const userInfo = {
+            name: data.email,
+            email: data.email,
+          };
+          axios
+            .post("http://localhost:6001/users", userInfo)
+            .then((response) => {
+              alert("account created");
+              document.getElementById("my_modal_5").close();
+              navigate(from, { replace: true });
+            })
+            .catch((err) => console.log(err));
+        });
       })
       .catch((error) => {
         console.log(error);

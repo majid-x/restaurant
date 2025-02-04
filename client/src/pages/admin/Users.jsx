@@ -10,7 +10,7 @@ const Users = () => {
       return res.json();
     },
   });
-
+  const isAdmin = false;
   return (
     <div>
       <div className="flex items-center justify-between m-4">
