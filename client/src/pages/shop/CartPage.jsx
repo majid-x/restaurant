@@ -17,7 +17,7 @@ const CartPage = () => {
   }, 0);
   const handleDecrease = (item) => {
     if (item.quatity > 1) {
-      fetch(`http://localhost:6001/carts/${item._id}`, {
+      fetch(`http://localhost:7781/carts/${item._id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
@@ -43,7 +43,7 @@ const CartPage = () => {
     }
   };
   const handleIncrease = (item) => {
-    fetch(`http://localhost:6001/carts/${item._id}`, {
+    fetch(`http://localhost:111/carts/${item._id}`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -78,7 +78,7 @@ const CartPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log(item._id);
-        fetch(`http://localhost:6001/carts/${item._id}`, {
+        fetch(`http://localhost:111/carts/${item._id}`, {
           // Ensure correct API URL
           method: "DELETE",
         })

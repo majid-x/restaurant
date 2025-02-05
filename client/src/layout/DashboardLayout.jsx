@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard, MdDashboardCustomize } from "react-icons/md";
 import { FiUsers } from "react-icons/fi";
 import {
@@ -12,6 +12,7 @@ import {
 import { FaCartShopping } from "react-icons/fa6";
 import Modal from "../components/Modal";
 import Login from "../components/Login";
+import useAdmin from "../hooks/useAdmin";
 const sharedLinks = (
   <>
     <li className="mt-3">
@@ -42,7 +43,13 @@ const sharedLinks = (
 );
 
 const DashboardLayout = () => {
-  const isAdmin = false;
+  const [isAdmin, isAdminLoading] = useAdmin();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAdmin === false) {
+      navigate("/login", { replace: true });
+    }
+  }, [isAdmin, isAdminLoading, navigate]);
   return (
     <div>
       {isAdmin ? (
@@ -115,9 +122,7 @@ const DashboardLayout = () => {
             </div>
           </div>
         </div>
-      ) : (
-        <Login></Login>
-      )}
+      ) : null}
     </div>
   );
 };

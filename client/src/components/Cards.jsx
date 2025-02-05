@@ -24,7 +24,7 @@ const Cards = ({ item }) => {
         price,
         email: user.email,
       };
-      fetch("http://localhost:6001/carts", {
+      fetch("http://localhost:7781/carts", {
         method: "POST",
         headers: {
           "content-type": "application/json",

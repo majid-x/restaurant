@@ -24,10 +24,11 @@ const createUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const userId = req.params.userId;
+  console.log(req.params.id);
+  const userId = req.params.id;
   try {
     const deletedUser = await User.findByIdAndDelete(userId);
-    if (!deleteUser) {
+    if (!deletedUser) {
       return res.status(302).json({ message: "user doent exist" });
     }
     res.status(200).json(deleteUser);
@@ -37,6 +38,7 @@ const deleteUser = async (req, res) => {
 };
 
 const getAdmin = async (req, res) => {
+  console.log("hello");
   const email = req.params.email;
   const query = { email: email };
   try {
@@ -64,7 +66,7 @@ const makeAdmin = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (!updateUser) {
-      return res.status(404).json({ message: "user not found" });
+      return res.status(404).json({ message: "usermeow not found" });
     }
     res.status(200).json(updateUser);
   } catch (error) {

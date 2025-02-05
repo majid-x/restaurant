@@ -4,16 +4,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthProvider";
 import axios from "axios";
+import useAdmin from "../hooks/useAdmin";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const [errormessage, seterrormessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const { login, signUpWithGmail } = useContext(AuthContext);
-
+  const [isAdmin, isAdminLoading, refetch] = useAdmin();
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
@@ -21,6 +22,7 @@ const Login = () => {
       .then(() => {
         alert("Login successful");
         navigate(from, { replace: true });
+        refetch();
       })
       .catch(() => {
         seterrormessage("Incorrect password or email");
@@ -34,10 +36,10 @@ const Login = () => {
           name: result.user.displayName,
           email: result.user.email,
         };
-        axios.post("http://localhost:6001/users", userInfo).then(() => {
-          alert("Account created");
-          navigate(from, { replace: true });
-        });
+        axios.post("http://localhost:7781/users", userInfo).then(() => {});
+        alert("Account login");
+        navigate(from, { replace: true });
+        refetch();
       })
       .catch(console.error);
   };

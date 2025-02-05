@@ -9,7 +9,7 @@ const useCart = () => {
     queryKey: ["carts", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:6001/carts?email=${user?.email}`,
+        `http://localhost:7781/carts?email=${user?.email}`,
         {
           headers: {
             authorization: `Bearer ${token}`,

@@ -1,16 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaTrash, FaUser, FaUsers } from "react-icons/fa";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Users = () => {
+  const axiosSecure = useAxiosSecure();
   const { refetch, data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:6001/users`);
-      return res.json();
+      const res = await axiosSecure.get("/users");
+      return res.data;
     },
   });
-  const isAdmin = false;
+  const handleMAkeAdmin = (user) => {
+    console.log(user);
+    axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
+      alert("made admin");
+      refetch();
+    });
+  };
+  const handleDelete = (user) => {
+    axiosSecure.delete(`/users/${user._id}`).then((res) => {
+      alert("deleted");
+      refetch();
+    });
+  };
   return (
     <div>
       <div className="flex items-center justify-between m-4">
@@ -42,7 +56,9 @@ const Users = () => {
                       {user.role === "admin" ? (
                         "Admin"
                       ) : (
-                        <button className="btn btn-xs btn-circle bg-indigo-500 text-white bg-white">
+                        <button
+                          onClick={() => handleMAkeAdmin(user)}
+                          className="btn btn-xs btn-circle bg-indigo-500 text-white bg-white">
                           <FaUsers></FaUsers>
                         </button>
                       )}

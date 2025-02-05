@@ -11,7 +11,7 @@ const Menu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responce = await fetch("http://localhost:6001/menu");
+        const responce = await fetch("http://localhost:7781/menu");
         const data = await responce.json();
         console.log(data);
         setMenu(data);

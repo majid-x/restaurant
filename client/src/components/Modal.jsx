@@ -50,7 +50,7 @@ const Modal = () => {
           name: result?.user?.displayName,
           email: result?.user?.email,
         };
-        axios.post("http://localhost:6001/users", userInfo).then((response) => {
+        axios.post("http://localhost:7781/users", userInfo).then((response) => {
           alert("account created");
           document.getElementById("my_modal_5").close();
           navigate(from, { replace: true });
